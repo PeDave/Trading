@@ -77,7 +77,7 @@ public class BitgetApiClient
                         var delay = (int)Math.Pow(2, attempt) * 1000;
                         _logger.LogWarning("Rate limited by Bitget, retrying in {Delay}ms", delay);
                         await Task.Delay(delay);
-                        request = CloneRequest(request);
+                        request = await CloneRequestAsync(request);
                         continue;
                     }
 
@@ -89,7 +89,7 @@ public class BitgetApiClient
                     var delay = (int)Math.Pow(2, attempt) * 1000;
                     _logger.LogWarning(ex, "HTTP request failed, retrying in {Delay}ms (attempt {Attempt})", delay, attempt + 1);
                     await Task.Delay(delay);
-                    request = CloneRequest(request);
+                    request = await CloneRequestAsync(request);
                 }
             }
             return default;
@@ -100,14 +100,14 @@ public class BitgetApiClient
         }
     }
 
-    private static HttpRequestMessage CloneRequest(HttpRequestMessage original)
+    private static async Task<HttpRequestMessage> CloneRequestAsync(HttpRequestMessage original)
     {
         var clone = new HttpRequestMessage(original.Method, original.RequestUri);
         foreach (var header in original.Headers)
             clone.Headers.TryAddWithoutValidation(header.Key, header.Value);
         if (original.Content != null)
         {
-            var contentBytes = original.Content.ReadAsByteArrayAsync().Result;
+            var contentBytes = await original.Content.ReadAsByteArrayAsync();
             clone.Content = new ByteArrayContent(contentBytes);
             foreach (var header in original.Content.Headers)
                 clone.Content.Headers.TryAddWithoutValidation(header.Key, header.Value);

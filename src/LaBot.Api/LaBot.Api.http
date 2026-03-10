@@ -1,6 +1,40 @@
 @LaBot.Api_HostAddress = http://localhost:5040
 
-GET {{LaBot.Api_HostAddress}}/weatherforecast/
+# Get all spot tickers (public)
+GET {{LaBot.Api_HostAddress}}/api/market/tickers
+Accept: application/json
+
+###
+
+# Login
+POST {{LaBot.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@labotkripto.com",
+  "password": "Admin@123456"
+}
+
+###
+
+# Get signals (requires auth - set @token from login response)
+@token = YOUR_JWT_TOKEN_HERE
+
+GET {{LaBot.Api_HostAddress}}/api/signals
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# Get current user info
+GET {{LaBot.Api_HostAddress}}/api/auth/me
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+# Get subscription info
+GET {{LaBot.Api_HostAddress}}/api/subscription/pricing
 Accept: application/json
 
 ###

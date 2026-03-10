@@ -194,10 +194,10 @@ public class TradingController : ControllerBase
         pageSize = Math.Clamp(pageSize, 1, 100);
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-        var query = _db.Orders.Where(o => o.UserId == userId);
-
-        if (!User.IsInRole("Admin"))
-            query = query.Where(o => o.UserId == userId);
+        // Admins can see all orders; regular users only see their own
+        var query = User.IsInRole("Admin")
+            ? _db.Orders.AsQueryable()
+            : _db.Orders.Where(o => o.UserId == userId);
 
         var total = await query.CountAsync();
         var orders = await query

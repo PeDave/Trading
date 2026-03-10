@@ -81,22 +81,24 @@ public class SubscriptionService : ISubscriptionService
         if (gate == null) return true;
         if (!gate.IsEnabled) return false;
 
-        // Check schedule
+        // Check schedule window
         var now = DateTime.UtcNow;
         if (gate.ScheduleStart.HasValue && now < gate.ScheduleStart.Value) return false;
         if (gate.ScheduleEnd.HasValue && now > gate.ScheduleEnd.Value) return false;
 
-        // Check tier
         var userTier = await GetUserTierAsync(userId);
-        if (userTier < gate.MinTier) return false;
 
-        // Check delay (DelayMinutes: feature only accessible after signal is DelayMinutes old)
-        if (gate.DelayMinutes > 0 && gate.MinTier > SubscriptionTier.Free)
+        // DelayMinutes: lower-tier users get delayed access (e.g., Free sees signals 15 minutes late)
+        // If the user meets the required tier exactly (not above), apply the delay check against UpdatedAt
+        if (gate.DelayMinutes > 0 && userTier == gate.MinTier)
         {
-            // Lower tiers get delayed access
-            if (userTier == SubscriptionTier.Free)
-                return false; // Free can never access if min tier is Pro
+            // Access is gated: the feature gate was last updated/enabled DelayMinutes ago
+            var accessibleAfter = gate.UpdatedAt.AddMinutes(gate.DelayMinutes);
+            if (now < accessibleAfter) return false;
         }
+
+        // Users below the minimum tier never get access
+        if (userTier < gate.MinTier) return false;
 
         return true;
     }
