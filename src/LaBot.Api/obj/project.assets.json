@@ -4179,7 +4179,7 @@
     ]
   },
   "packageFolders": {
-    "/tmp/codeql-scratch-85b41bd2eae61ae2/dbs/csharp/working/packages": {}
+    "/home/runner/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
@@ -4187,7 +4187,7 @@
       "projectUniqueName": "/home/runner/work/Trading/Trading/src/LaBot.Api/LaBot.Api.csproj",
       "projectName": "LaBot.Api",
       "projectPath": "/home/runner/work/Trading/Trading/src/LaBot.Api/LaBot.Api.csproj",
-      "packagesPath": "/tmp/codeql-scratch-85b41bd2eae61ae2/dbs/csharp/working/packages",
+      "packagesPath": "/home/runner/.nuget/packages/",
       "outputPath": "/home/runner/work/Trading/Trading/src/LaBot.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LaBot.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c25c6e7c39185da4eb5eef0ee5519cd2a5471a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cbafbf250e823f18d7b0ae887246b0accdffe229")]
 [assembly: System.Reflection.AssemblyProductAttribute("LaBot.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LaBot.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
